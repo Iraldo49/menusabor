@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Sabor da Esquina</title>
+    <link rel="stylesheet" href="css/styles.css">
+   <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <div class="logo">
+           <div class="flex items-center">
+                   <img class="w-20 h-20 rounded-full" src="img/2.png" alt="ícone de carrinho" />
+                </div>
+        </div>
+        <div class="header-actions">
+          <div id="cart-icon" class="cart-icon" style="display: none;">
+            <span style="font-size: 24px;">🛒</span>
+            <span id="cart-badge" class="cart-badge">0</span>
+          </div>
+          <!-- <button id="login-btn" class="btn btn-primary">Entrar</button> -->
+           <style>
+    @keyframes rotate {
+        100% {
+            transform: rotate(1turn);
+        }
+    }
+
+    .rainbow::before {
+        content: '';
+        position: absolute;
+        z-index: -2;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background-position: 100% 50%;
+        background-repeat: no-repeat;
+        background-size: 50% 30%;
+        filter: blur(6px);
+        background-image: linear-gradient(#ffd200);
+        animation: rotate 4s linear infinite;
+    }
+</style>
+<div class="rainbow relative z-0 overflow-hidden p-0.5 flex items-center justify-center rounded-full hover:scale-105 transition duration-300 active:scale-100">
+    <button id="login-btn" class="px-8 text-sm py-3 text-white rounded-full font-medium bg-gray-800">
+       Entrar
+    </button>
+</div>
+          <!-- <button id="logout-btn" class="btn btn-secondary" style="display: none;">Sair</button> -->
+        <div class="rainbow relative z-0 overflow-hidden p-0.5 flex items-center justify-center rounded-full hover:scale-105 transition duration-300 active:scale-100">
+    <button id="logout-btn" style="display: none;" class="px-8 text-sm py-3 text-white rounded-full font-medium bg-gray-800">
+       Entrar
+    </button>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+      <!-- Carousel -->
+      <div id="carousel-section" class="carousel-section" style="display: none;">
+        <h2 class="carousel-title">🔥 Promoções Especiais</h2>
+        <div class="carousel">
+          <div id="carousel-track" class="carousel-track"></div>
+          <button class="carousel-btn carousel-prev" onclick="prevSlide()">‹</button>
+          <button class="carousel-btn carousel-next" onclick="nextSlide()">›</button>
+        </div>
+        <div id="carousel-dots" class="carousel-dots"></div>
+      </div>
+
+      <!-- Categories -->
+      <div class="categories">
+        <span class="category-chip active" data-category="all">Todos</span>
+        <span class="category-chip" data-category="burgers">Burgers</span>
+        <span class="category-chip" data-category="pizzas">Extra</span>
+        <span class="category-chip" data-category="bebidas">Bebidas</span>
+        <span class="category-chip" data-category="sobremesas">Extra</span>
+      </div>
+
+      <!-- Products -->
+      <div class="products-section">
+        <div id="products-grid" class="products-grid"></div>
+        <div id="empty-products" class="empty-state" style="display: none;">
+          <div class="empty-state-icon">🍽️</div>
+          <p>Nenhum produto disponível no momento</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-panel" style="display: none;">
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="products">Produtos</button>
+        <button class="admin-tab" data-tab="orders">Pedidos</button>
+      </div>
+
+      <!-- Products Tab -->
+      <div id="admin-products" class="admin-content active">
+        <div class="admin-actions">
+          <button id="add-product-btn" class="btn btn-success">+ Adicionar</button>
+        </div>
+        <div id="admin-products-list" class="product-list"></div>
+      </div>
+
+      <!-- Orders Tab -->
+      <div id="admin-orders" class="admin-content">
+        <div id="admin-orders-list" class="product-list"></div>
+      </div>
+    </div>
+
+    <!-- Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+      <div class="cart-header">
+        <h2>Seu Carrinho</h2>
+        <button class="close-cart" id="close-cart">×</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cart-total">0,00 MT</span>
+        </div>
+        <div class="form-group" style="margin-top: 16px;">
+          <label class="form-label">Seu Nome</label>
+          <div style="padding: 12px 16px; background: #f5f5f5; border-radius: 8px; color: #666; font-weight: 600;" id="cart-customer-name"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Método de Pagamento</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button type="button" class="payment-method-btn" data-method="Dinheiro">Dinheiro</button>
+            <button type="button" class="payment-method-btn" data-method="M-Pesa">M-Pesa</button>
+            <button type="button" class="payment-method-btn" data-method="E-Mola">E-Mola</button>
+            <button type="button" class="payment-method-btn" data-method="Transferência">Transferência</button>
+          </div>
+        </div>
+        <button id="checkout-btn" class="checkout-btn">Enviar Pedido no WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <div class="flex items-center ">
+                <div class="flex items-center">
+                   <img class="w-20 h-20 rounded-full" src="img/2.png" alt="ícone de carrinho" />
+                </div>
+            </div>
+        <!-- <h2 class="modal-header" id="login-title">Entrar</h2> -->
+        <form id="login-form">
+          <div class="form-group" id="name-group" style="display: none;">
+            <label class="form-label" for="login-name">Nome Completo</label>
+            <input type="text" id="login-name" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-username">Celular</label>
+            <input type="text" id="login-username" class="form-input" placeholder="+258 84 123 4567" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">Senha</label>
+            <input type="password" id="login-password" class="form-input" required>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-login">Cancelar</button>
+            <button type="submit" class=" btn btn-success">Confirmar</button>
+          </div>
+        </form>
+        <p style="text-align: center; margin-top: 16px; font-size: 14px; color: #666;">
+          <span id="login-switch-text">Não tem conta?</span>
+          <a href="#" id="login-switch" style="color: #ea1d2c; font-weight: 600;">Criar conta</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Product Form Modal -->
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <h2 class="modal-header" id="product-modal-title">Adicionar Produto</h2>
+        <form id="product-form">
+          <div class="form-group">
+            <label class="form-label" for="product-name">Nome do Produto</label>
+            <input type="text" id="product-name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="product-category">Categoria</label>
+            <select id="product-category" class="form-input" required>
+              <option value="burgers">🍔 Burgers</option>
+              <option value="pizzas">🍕 Pizzas</option>
+              <option value="bebidas">🥤 Bebidas</option>
+              <option value="sobremesas">🍰 Sobremesas</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="product-description">Descrição</label>
+            <input type="text" id="product-description" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="product-price">Preço (MT)</label>
+            <input type="number" id="product-price" class="form-input" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Imagem do Produto</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="product-image-file" accept="image/*" class="form-input">
+              <div class="file-input-label" id="file-input-label">
+                📷 Clique para selecionar uma imagem
+              </div>
+            </div>
+            <div id="image-preview" class="image-preview" style="display: none;"></div>
+            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">
+              Ou cole uma URL de imagem abaixo
+            </small>
+            <input type="text" id="product-image-url" class="form-input" placeholder="https://exemplo.com/imagem.jpg" style="margin-top: 8px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <input type="checkbox" id="product-promotion"> Em Promoção
+            </label>
+          </div>
+          <div class="form-group" id="original-price-group" style="display: none;">
+            <label class="form-label" for="product-original-price">Preço Original (MT)</label>
+            <input type="number" id="product-original-price" class="form-input" step="0.01">
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-product">Cancelar</button>
+            <button type="submit" class="btn btn-success">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+  </div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
